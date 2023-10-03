@@ -18,7 +18,7 @@ export async function createPlayer(
     if (existingPlayer) {
       return res
         .status(400)
-        .json({ error: "Player already exists, choose another name" });
+        .json({ error: "Player already exists, choose another name or go to log in" });
     }
 
     if (password.length < 6) {
@@ -87,42 +87,43 @@ export async function modifyPlayerName(
   }
 }
 
-// export async function createPlayer(
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) {
-//   try {
-//     const { name, password }: CreatePlayerRequest = req.body; // Adjust type as needed
+export async function playerLogin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { name, password }: { name: string; password: string } = req.body;
 
-//     if (!name) {
-//       name = "ANONYMOUS";
-//     }
+    // Check if the player exists by name
+    const player = await Player.findOne({ where: { name } });
+    if (!player) {
+      return res.status(404).json({ error: "Player not found" });
+    }
 
-//     const existingPlayer = await Player.findOne({ where: { name } });
-//     if (existingPlayer) {
-//       return res
-//         .status(400)
-//         .json({ error: "Player already exists, choose other name" });
-//     }
+    // Check if the provided password matches the player's password
+    if (player.password !== password) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
 
-//     if (password.length < 6) {
-//       return res
-//         .status(400)
-//         .json({ error: "Password should be at least 6 characters long" });
-//     }
+    // Player is successfully logged in
+    res.status(200).json({ message: "Player logged in successfully", player });
+  } catch (error) {
+    console.error("Error logging in player:", error);
+    res.status(500).json({ error: "Internal server error" });
 
-//     const newPlayer = await Player.create({ name, password });
+    next(error);
+  }
+  
+}
 
-//     res
-//       .status(201)
-//       .json({ message: "Player created successfully", player: newPlayer });
+export async function playerLogout(req: Request, res: Response, next: NextFunction) {
+  try {
+    // You can perform any necessary logic for logging out a player here
+    // For example, clearing session data or tokens
 
-//     next();
-//   } catch (error) {
-//     console.error("Error creating player:", error);
-//     res.status(500).json({ error: "Internal server error" });
+    // Respond with a success message
+    res.status(200).json({ message: "Player logged out successfully" });
+  } catch (error) {
+    console.error("Error logging out player:", error);
+    res.status(500).json({ error: "Internal server error" });
 
-//     next(error);
-//   }
-// }
+    next(error);
+  }
+}
