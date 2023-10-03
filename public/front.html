@@ -1,3 +1,5 @@
+este funciona en parte el create game
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -50,23 +52,19 @@
     <div class="center">
       <!-- Display response from the server -->
       <div id="response">
-        <div id="errorMessage" style="color: red;"></div>
+        <div id="errorMessage" style="color: red"></div>
       </div>
     </div>
 
     <div class="center">
-
       <button
-  hx-get="/api/getPlayers"
-  hx-target="#response"
-  hx-swap="outerHTML"
-  hx-indicator="true"
->
-  Get All Players
-</button>
-
-
-
+        hx-get="/api/getPlayers"
+        hx-target="#response"
+        hx-swap="outerHTML"
+        hx-indicator="true"
+      >
+        Get All Players
+      </button>
     </div>
 
     <!-- ESTE SIRVE Form for playing a game 
@@ -75,66 +73,59 @@
   <button type="submit" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Start Game</button>
 </form> -->
 
-<div class="center">
-  <!-- Form for playing a game -->
-  <br>
-  <form id="playGameForm">
-    <p>Enter a player's id</p>
-    <input type="number" id="id" name="id" required />
-    <br>
-    <button
-      type="button"
-      onclick="playGameForPlayer()"
-    >
-      Start Game
-    </button>
-  </form>
-</div>
+    <div class="center">
+      <!-- Form for playing a game -->
+      <form id="playGameForm">
+        <input type="number" id="id" name="id" required />
+        <button type="button" onclick="playGameForPlayer()">Start Game</button>
+      </form>
+    </div>
 
-<div class="center">
-  <!-- Display response from the server -->
-  <div id="response">
-    <!-- Placeholder for response content -->
-  </div>
-</div>
+    <div class="center">
+      <!-- Display response from the server -->
+      <div id="response">
+        <!-- Placeholder for response content -->
+      </div>
+    </div>
 
-<div id="gameInfo"></div>
+    <script>
+      async function playGameForPlayer() {
+        const playerIdInput = document.getElementById("id");
+        const playerId = parseInt(playerIdInput.value);
 
+        if (isNaN(playerId)) {
+          console.error("Invalid player ID");
+          return;
+        }
 
-<script>
-  document.addEventListener("htmx:configRequest", function (event) {
-    // Reset any previous error or success messages
-    document.getElementById("errorMessage").textContent = "";
-  });
+        try {
+          const response = await fetch(`/api/game/${playerId}`, {
+            method: "POST",
+          });
 
-  document.addEventListener("htmx:responseError", function (event) {
-    // Handle error response from the server
-    const response = event.detail.xhr.response;
-    if (response && response.error) {
-      document.getElementById("errorMessage").textContent = response.error;
-    }
-  });
-
-  document.addEventListener("htmx:response", function (event) {
-    // Handle success response from the server
-    const response = event.detail.xhr.response;
-    if (response && response.message) {
-      document.getElementById("errorMessage").textContent = response.message;
-
-      // Display additional properties if they exist
-      if (response.game) {
-        const gameInfo = document.getElementById("gameInfo");
-        gameInfo.textContent = JSON.stringify(response.game, null, 2);
+          if (response.ok) {
+            const result = await response.json();
+            // Display the entire response object in JSON format
+            const responseDiv = document.getElementById("response");
+            responseDiv.innerHTML = `<pre>${JSON.stringify(
+              result,
+              null,
+              2
+            )}</pre>`;
+          } else {
+            const errorData = await response.json();
+            console.error("Error:", errorData.error);
+            // Display the error message in the response div
+            const responseDiv = document.getElementById("response");
+            responseDiv.innerHTML = `<p>Error: ${errorData.error}</p>`;
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          // Display the error message in the response div
+          const responseDiv = document.getElementById("response");
+          responseDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+        }
       }
-    }
-  });
-</script>
-
-
-
-  
-    
-
-
+    </script>
   </body>
 </html>
