@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import Player from "../models/playerModelCheck";
 import { CreatePlayerRequest } from "../types/playerTypes";
-import {GameDb} from '../models/gameModel'; '../models/GameModel';
-import { playGame } from './GameService'; '../controllers/GameService';
+import { GameDb } from "../models/gameModel";
+("../models/GameModel");
+import { playGame } from "./GameService";
+("../controllers/GameService");
 
 export async function createPlayer(
   req: Request,
@@ -20,7 +22,9 @@ export async function createPlayer(
     if (existingPlayer) {
       return res
         .status(400)
-        .json({ error: "Player already exists, choose another name or go to log in" });
+        .json({
+          error: "Player already exists, choose another name or go to log in",
+        });
     }
 
     if (password.length < 6) {
@@ -87,9 +91,7 @@ export async function modifyPlayerName(
 
     next(error);
   }
-
 }
-
 
 //Play game for a player
 
@@ -109,7 +111,9 @@ export async function playGameForPlayer(
     const game = playGame(playerId);
     const newGame = await GameDb.create(game);
 
-    res.status(200).json({ message: "Game played successfully", game: newGame });
+    res
+      .status(200)
+      .json({ message: "Game played successfully", game: newGame });
   } catch (error) {
     console.error("Error playing game:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -254,7 +258,9 @@ export async function getPlayerWinningPercentage(
     }
 
     const games = await GameDb.findAll({ where: { playerId } });
-    const winningGames = await GameDb.findAll({ where: { playerId, win: true } });
+    const winningGames = await GameDb.findAll({
+      where: { playerId, win: true },
+    });
     const winningPercentage = (winningGames.length / games.length) * 100;
 
     res.status(200).json({ winningPercentage });
@@ -276,8 +282,12 @@ export async function getAverageWinningPercentage(
     const players = await Player.findAll();
     let totalWinningPercentage = 0;
     for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({ where: { playerId: players[i].id } });
-      const winningGames = await GameDb.findAll({ where: { playerId: players[i].id, win: true } });
+      const games = await GameDb.findAll({
+        where: { playerId: players[i].id },
+      });
+      const winningGames = await GameDb.findAll({
+        where: { playerId: players[i].id, win: true },
+      });
       const winningPercentage = (winningGames.length / games.length) * 100;
       totalWinningPercentage += winningPercentage;
     }
@@ -303,8 +313,12 @@ export async function getRanking(
     const players = await Player.findAll();
     let ranking = [];
     for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({ where: { playerId: players[i].id } });
-      const winningGames = await GameDb.findAll({ where: { playerId: players[i].id, win: true } });
+      const games = await GameDb.findAll({
+        where: { playerId: players[i].id },
+      });
+      const winningGames = await GameDb.findAll({
+        where: { playerId: players[i].id, win: true },
+      });
       const winningPercentage = (winningGames.length / games.length) * 100;
       ranking.push({ name: players[i].name, winningPercentage });
     }
@@ -329,8 +343,12 @@ export async function getRankingLosses(
     const players = await Player.findAll();
     let ranking = [];
     for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({ where: { playerId: players[i].id } });
-      const losingGames = await GameDb.findAll({ where: { playerId: players[i].id, win: false } });
+      const games = await GameDb.findAll({
+        where: { playerId: players[i].id },
+      });
+      const losingGames = await GameDb.findAll({
+        where: { playerId: players[i].id, win: false },
+      });
       const losingPercentage = (losingGames.length / games.length) * 100;
       ranking.push({ name: players[i].name, losingPercentage });
     }
@@ -355,8 +373,12 @@ export async function getRankingAverage(
     const players = await Player.findAll();
     let ranking = [];
     for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({ where: { playerId: players[i].id } });
-      const winningGames = await GameDb.findAll({ where: { playerId: players[i].id, win: true } });
+      const games = await GameDb.findAll({
+        where: { playerId: players[i].id },
+      });
+      const winningGames = await GameDb.findAll({
+        where: { playerId: players[i].id, win: true },
+      });
       const winningPercentage = (winningGames.length / games.length) * 100;
       ranking.push({ name: players[i].name, winningPercentage });
     }
@@ -370,8 +392,11 @@ export async function getRankingAverage(
   }
 }
 
-
-export async function playerLogin(req: Request, res: Response, next: NextFunction) {
+export async function playerLogin(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     const { name, password }: { name: string; password: string } = req.body;
 
@@ -394,10 +419,13 @@ export async function playerLogin(req: Request, res: Response, next: NextFunctio
 
     next(error);
   }
-  
 }
 
-export async function playerLogout(req: Request, res: Response, next: NextFunction) {
+export async function playerLogout(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
     // You can perform any necessary logic for logging out a player here
     // For example, clearing session data or tokens
@@ -411,4 +439,3 @@ export async function playerLogout(req: Request, res: Response, next: NextFuncti
     next(error);
   }
 }
-

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dice Game</title>
+
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="https://unpkg.com/htmx.org@1.6.0/dist/htmx.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Montserrat:wght@200;300;400;500&family=Roboto:wght@100;300;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Dice Game</h1>
+    <div class="center">
+      <a href="http://localhost:3000/front.html">
+        <button type="button">Refresh</button>
+      </a>
+      <br /><br /><br />
+    </div>
+
+    <div class="center" id="createplayer">
+      <!-- Form for creating a player -->
+      <form id="createPlayerForm" hx-post="/api/players">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required />
+        <br />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required />
+        <br />
+        <br />
+        <br />
+
+        <button
+          type="submit"
+          hx-target="#response"
+          hx-swap="outerHTML"
+          hx-indicator="true"
+        >
+          Create Player
+        </button>
+      </form>
+    </div>
+
+    <div class="center">
+      <!-- Display response from the server -->
+      <div id="response">
+        <div id="errorMessage" style="color: red;"></div>
+      </div>
+    </div>
+
+    <div class="center">
+
+      <button
+  hx-get="/api/getPlayers"
+  hx-target="#response"
+  hx-swap="outerHTML"
+  hx-indicator="true"
+>
+  Get All Players
+</button>
+
+
+
+    </div>
+
+    <!-- ESTE SIRVE Form for playing a game 
+<form id="playGameForm" hx-post="/api/game/0">  Use a default value for hx-post
+  <input type="text" id="id" name="id" required />
+  <button type="submit" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Start Game</button>
+</form> -->
+
+<div class="center">
+  <!-- Form for playing a game -->
+  <br>
+  <form id="playGameForm">
+    <p>Enter a player's id</p>
+    <input type="number" id="id" name="id" required />
+    <br>
+    <button
+      type="button"
+      onclick="playGameForPlayer()"
+    >
+      Start Game
+    </button>
+  </form>
+</div>
+
+<div class="center">
+  <!-- Display response from the server -->
+  <div id="response">
+    <!-- Placeholder for response content -->
+  </div>
+</div>
+
+<div id="gameInfo"></div>
+
+
+<script>
+  document.addEventListener("htmx:configRequest", function (event) {
+    // Reset any previous error or success messages
+    document.getElementById("errorMessage").textContent = "";
+  });
+
+  document.addEventListener("htmx:responseError", function (event) {
+    // Handle error response from the server
+    const response = event.detail.xhr.response;
+    if (response && response.error) {
+      document.getElementById("errorMessage").textContent = response.error;
+    }
+  });
+
+  document.addEventListener("htmx:response", function (event) {
+    // Handle success response from the server
+    const response = event.detail.xhr.response;
+    if (response && response.message) {
+      document.getElementById("errorMessage").textContent = response.message;
+
+      // Display additional properties if they exist
+      if (response.game) {
+        const gameInfo = document.getElementById("gameInfo");
+        gameInfo.textContent = JSON.stringify(response.game, null, 2);
+      }
+    }
+  });
+</script>
+
+
+
+  
+    
+
+
+  </body>
+</html>
