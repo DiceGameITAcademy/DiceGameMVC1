@@ -20,7 +20,7 @@ export async function createPlayer(
     if (existingPlayer) {
       return res
         .status(400)
-        .json({ error: "Player already exists, choose another name" });
+        .json({ error: "Player already exists, choose another name or go to log in" });
     }
 
     if (password.length < 6) {
@@ -90,29 +90,6 @@ export async function modifyPlayerName(
 
 }
 
-export async function deletePlayer(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const playerId = req.params.id;
-
-    const player = await Player.findOne({ where: { id: playerId } });
-    if (!player) {
-      return res.status(404).json({ error: "Player not found" });
-    }
-
-    await player.destroy();
-
-    res.status(200).json({ message: "Player deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting player:", error);
-    res.status(500).json({ error: "Internal server error" });
-
-    next(error);
-  }
-}
 
 //Play game for a player
 
@@ -232,6 +209,30 @@ export async function getPlayerLosingGames(
     res.status(200).json({ games });
   } catch (error) {
     console.error("Error fetching player games:", error);
+    res.status(500).json({ error: "Internal server error" });
+
+    next(error);
+  }
+}
+
+export async function deletePlayer(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const playerId = req.params.id;
+
+    const player = await Player.findOne({ where: { id: playerId } });
+    if (!player) {
+      return res.status(404).json({ error: "Player not found" });
+    }
+
+    await player.destroy();
+
+    res.status(200).json({ message: "Player deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting player:", error);
     res.status(500).json({ error: "Internal server error" });
 
     next(error);
@@ -369,4 +370,45 @@ export async function getRankingAverage(
   }
 }
 
+
+export async function playerLogin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { name, password }: { name: string; password: string } = req.body;
+
+    // Check if the player exists by name
+    const player = await Player.findOne({ where: { name } });
+    if (!player) {
+      return res.status(404).json({ error: "Player not found" });
+    }
+
+    // Check if the provided password matches the player's password
+    if (player.password !== password) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+
+    // Player is successfully logged in
+    res.status(200).json({ message: "Player logged in successfully", player });
+  } catch (error) {
+    console.error("Error logging in player:", error);
+    res.status(500).json({ error: "Internal server error" });
+
+    next(error);
+  }
+  
+}
+
+export async function playerLogout(req: Request, res: Response, next: NextFunction) {
+  try {
+    // You can perform any necessary logic for logging out a player here
+    // For example, clearing session data or tokens
+
+    // Respond with a success message
+    res.status(200).json({ message: "Player logged out successfully" });
+  } catch (error) {
+    console.error("Error logging out player:", error);
+    res.status(500).json({ error: "Internal server error" });
+
+    next(error);
+  }
+}
 

@@ -9,7 +9,7 @@ Here are the rules of the game:
 
 If the user wishes, he/she may not add a name and it will be called "ANONYMOUS". There can be more than one "ANONYMOUS" player.
 
-- Each player can see a list of all the rolls they have made with the value of each die and whether or not they have won the game. In addition, you can know the percentage of success of the rolls you have made.
+- Each player can see a list of all the rolls they have made with the value of each dice and whether or not they have won the game. In addition, you can know the percentage of success of the rolls you have made.
 - You cannot delete a specific game, but you can delete a player's entire roll list. The software must be able to list all the players in the system, the success percentage of each player and the average success percentage of all the players in the system.
 - The software must respect the main design patterns.
 
