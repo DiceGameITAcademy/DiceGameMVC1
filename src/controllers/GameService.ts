@@ -13,7 +13,9 @@ export const checkWin = (result: number) => {
         else return false
 }   
 
-export const playGame = (id: number): Game => {
+export const playGame = (id:number): Game => {
+    if(typeof id !== 'number') throw new Error('id must be a number'
+    )
 	const diceValue1: number = roll();
 	const diceValue2: number = roll();
 	const result: number = calcResult(diceValue1,diceValue2);
@@ -22,11 +24,14 @@ export const playGame = (id: number): Game => {
 
 
 	const gameResult: Game = {
+        id,
 		diceValue1,
 		diceValue2,
 		result,
         win,
-		playerId
+		playerId,
+        createdAt: new Date(),
+        updatedAt: new Date()
 	};
 
 	return gameResult;
