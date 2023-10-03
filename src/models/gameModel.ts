@@ -1,20 +1,18 @@
 import { DataTypes,Model, Sequelize } from 'sequelize';
 import  sequelize  from '../../config/sequelize.config';
 
-interface GameAttributes{
-	id: number;
-	diceValue1: number;
-	diceValue2: number;
-	result: number;
-	win: boolean;
-    playerId: number;
-	createdAt: Date;
-	updatedAt: Date;
+class Game extends Model {
+	public id!: number;
+	public diceValue1!: number;
+	public diceValue2!: number;
+	public result!: number;
+	public win!: boolean;
+    public playerId!: number;
+	public createdAt!: Date;
+	public updatedAt!: Date;
 }
 
-export interface GameInstance extends Model<GameAttributes>, GameAttributes {}
-
-export const GameDb = sequelize.define<GameInstance>('Games', {
+Game.init({
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -53,7 +51,14 @@ export const GameDb = sequelize.define<GameInstance>('Games', {
 			key: 'id'
 		},
 		allowNull: false
-	}
-});
+	},
+},
+    {
+        sequelize,
+        modelName: 'Game',
+        tableName: 'games',
+        timestamps: false,
+    }
+);
 
-GameDb.sync()
+export default Game;
