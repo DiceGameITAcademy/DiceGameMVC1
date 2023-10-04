@@ -2,6 +2,10 @@ import {
   createPlayer,
   getAllPlayers,
   modifyPlayerName,
+ deletePlayer,
+ playGameForPlayer,
+ 
+
 } from "../../src/controllers/PlayerControllerCheck";
 import express from "express";
 
