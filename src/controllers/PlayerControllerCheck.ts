@@ -271,8 +271,8 @@ export async function getPlayerWinningPercentage(
   }
 }
 
-//get ranking of players based on wins
-//ORDENAR Y QUE SOLO SALGA EL NOMBRE Y EL numero de victorias
+//get ranking of players based on WINS
+
 
 export async function getRanking(
   req: Request,
