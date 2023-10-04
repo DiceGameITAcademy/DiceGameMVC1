@@ -108,6 +108,8 @@ export async function playGameForPlayer(
       return res.status(404).json({ error: "Player not found" });
     }
 
+   
+
     const game = playGame(playerId);
     const newGame = await GameDb.create(game);
 

@@ -16,6 +16,7 @@ export const checkWin = (result: number) => {
 export const playGame = (id:number): Game => {
     if(typeof id !== 'number') throw new Error('id must be a number'
     )
+	const gameId = Math.random() * 1000;
 	const diceValue1: number = roll();
 	const diceValue2: number = roll();
 	const result: number = calcResult(diceValue1,diceValue2);
@@ -24,7 +25,7 @@ export const playGame = (id:number): Game => {
 
 
 	const gameResult: Game = {
-        id,
+        id : gameId,
 		diceValue1,
 		diceValue2,
 		result,
