@@ -1,0 +1,47 @@
+ff7802716c953189f338220fc551ecad
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const GameService_1 = require("../../controllers/GameService");
+describe('Game Logic', () => {
+    describe('roll', () => {
+        it('should generate a random number between 1 and 6', () => {
+            const result = (0, GameService_1.roll)();
+            expect(result).toBeGreaterThanOrEqual(1);
+            expect(result).toBeLessThanOrEqual(6);
+        });
+    });
+    describe('calcResult', () => {
+        it('should calculate the sum of two numbers', () => {
+            const result = (0, GameService_1.calcResult)(2, 3);
+            expect(result).toBe(5);
+        });
+    });
+    describe('checkWin', () => {
+        it('should return true if the result is 7, otherwise false', () => {
+            expect((0, GameService_1.checkWin)(7)).toBe(true);
+            expect((0, GameService_1.checkWin)(5)).toBe(false);
+        });
+    });
+    describe('playGame', () => {
+        it('should return a valid Game object', () => {
+            const playerId = 1;
+            const game = (0, GameService_1.playGame)(playerId);
+            // Check if the returned game has the expected properties
+            expect(game.id).toBeDefined();
+            expect(game.diceValue1).toBeGreaterThanOrEqual(1);
+            expect(game.diceValue1).toBeLessThanOrEqual(6);
+            expect(game.diceValue2).toBeGreaterThanOrEqual(1);
+            expect(game.diceValue2).toBeLessThanOrEqual(6);
+            expect(game.result).toBe(game.diceValue1 + game.diceValue2);
+            expect(typeof game.win).toBe('boolean');
+            expect(game.playerId).toBe(playerId);
+            expect(game.createdAt).toBeInstanceOf(Date);
+            expect(game.updatedAt).toBeInstanceOf(Date);
+        });
+        it('should throw an error if the provided ID is not a number', () => {
+            // Use an invalid ID (a string in this case)
+            const invalidId = 'not_a_number';
+            expect(() => (0, GameService_1.playGame)(invalidId)).toThrowError('id must be a number');
+        });
+    });
+});

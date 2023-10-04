@@ -1,7 +1,8 @@
-591fda0b3fd4cf62838aa0b3ea12f1bd
+4e34f6d326770cbb7bdf31b34ae56580
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.playGame = exports.checkWin = exports.calcResult = exports.roll = void 0;
+const uuid_1 = require("uuid");
 const roll = () => {
     return Math.floor(Math.random() * 6) + 1;
 };
@@ -17,10 +18,16 @@ const checkWin = (result) => {
         return false;
 };
 exports.checkWin = checkWin;
+function generateRandomNumber() {
+    const uuid = (0, uuid_1.v4)();
+    const hex = uuid.replace(/-/g, '').slice(0, 6); // Tomar solo los primeros 15 caracteres
+    const bigIntValue = BigInt('0x' + hex);
+    return Number(bigIntValue);
+}
 const playGame = (id) => {
     if (typeof id !== 'number')
         throw new Error('id must be a number');
-    const gameId = Math.random() * 1000;
+    const gameId = generateRandomNumber();
     const diceValue1 = (0, exports.roll)();
     const diceValue2 = (0, exports.roll)();
     const result = (0, exports.calcResult)(diceValue1, diceValue2);
