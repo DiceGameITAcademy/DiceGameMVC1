@@ -28,7 +28,6 @@
     </div>
 
     <div class="center" id="createplayer">
-      <!-- Form for creating a player -->
       <form id="createPlayerForm" hx-post="/api/players">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required />
@@ -52,7 +51,6 @@
     </div>
 
     <div class="center">
-      <!-- Display response from the server -->
       <div id="response">
         <div id="errorMessage" style="color: red"></div>
       </div>
@@ -133,52 +131,9 @@
 
 
     
+<script src="script.js"></script>
 
-    <!-- <div class="center">
-      <-- Display response from the server -->
-      <!-- <div id="response"> -->
-        <!-- Placeholder for response content >
-      </div>
-    </div> -->
 
-    <script>
-      async function playGameForPlayer() {
-        const playerIdInput = document.getElementById("id");
-        const playerId = parseInt(playerIdInput.value);
-
-        if (isNaN(playerId)) {
-          console.error("Invalid player ID");
-          return;
-        }
-
-        try {
-          const response = await fetch(`/api/game/${playerId}`, {
-            method: "POST",
-          });
-
-          if (response.ok) {
-            const result = await response.json();
-            // Display the entire response object in JSON format
-            const responseDiv = document.getElementById("response");
-            responseDiv.innerHTML = `<pre>${JSON.stringify(
-              result,
-              null,
-              2
-            )}</pre>`;
-          } else {
-            const errorData = await response.json();
-            console.error("Error:", errorData.error);
-            // Display the error message in the response div
-            const responseDiv = document.getElementById("response");
-            responseDiv.innerHTML = `<p>Error: ${errorData.error}</p>`;
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          // Display the error message in the response div
-          const responseDiv = document.getElementById("response");
-          responseDiv.innerHTML = `<p>Error: ${error.message}</p>`;
-        }
-      }
-    </script>
+   
   </body>
 </html>
