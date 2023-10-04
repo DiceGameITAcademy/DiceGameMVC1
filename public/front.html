@@ -23,6 +23,10 @@
       <br /><br /><br />
     </div>
 
+    <div class="center">
+      <img src="./pngimg.com - dice_PNG49.png" alt="dice game" id="dice">
+    </div>
+
     <div class="center" id="createplayer">
       <!-- Form for creating a player -->
       <form id="createPlayerForm" hx-post="/api/players">
@@ -79,17 +83,7 @@
       </div>
       <br>
       <div class="center">
-        
-        <div class="center">
-          <form id="deletePlayerGames">
-            <h2>Enter player's ID to clean player's roll history</h2>
-            <input type="number" id="playerIdToDelete" name="id" required />
-            <br>
-            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Delete Rolls</button>
-          </form>
-        </div>
-        
-        </div>
+
         <br>
         <div class="center" id="getranking">
           <button
@@ -101,13 +95,39 @@
             Get Ranking
           </button>
         </div>
-        <br>
-        
 
+        <div class="center">
+          <form id="getPlayerGames">
+            <h2>Enter player's ID to get a player's games</h2>
+            <input type="number" id="playerIdToDelete" name="id" required />
+            <br>
+            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Get players's rolls</button>
+          </form>
+        </div>
+        
+        <div class="center">
+          <form id="deletePlayerGames">
+            <h2>Enter player's ID to clean player's roll history</h2>
+            <input type="number" id="playerIdToDelete" name="id" required />
+            <br>
+            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Delete Rolls</button>
+          </form>
+        </div>
+        
+        <div class="center">
+          <form id="deletePlayer">
+            <h2>Enter player's ID to delete this player</h2>
+            <input type="number" id="playerIdToDelete" name="id" required />
+            <br>
+            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Delete Player</button>
+          </form>
+        </div>
 
       </div>
-    
-
+        
+        <br>
+        
+      </div>
     </div>
 
 
