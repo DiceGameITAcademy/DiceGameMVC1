@@ -8,7 +8,6 @@ class Player extends Model {
   public wins!: number;
   public losses!: number;
 
-  // Define other fields as needed
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -37,7 +36,6 @@ Player.init(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    // Define other fields as needed
   },
   {
     sequelize,
