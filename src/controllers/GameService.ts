@@ -17,6 +17,7 @@ export const checkWin = (result: number) => {
 export const GameId = (): number => {
     const uuid = uuidv4().replace(/-/g, ''); 
     return parseInt(uuid, 16); 
+
   };
 
 export const playGame = (id:number): Game => {
@@ -43,3 +44,8 @@ export const playGame = (id:number): Game => {
 
 	return gameResult;
 };
+
+console.log(playGame(1));
+console.log(playGame(2));
+console.log(playGame(3));
+console.log(playGame(4));

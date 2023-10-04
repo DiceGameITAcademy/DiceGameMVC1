@@ -9,7 +9,9 @@
   "scripts": {
     "test": "jest",
     "start": "node dist/server/server.js",
-    "sequelize": "npx sequelize-cli"
+    "sequelize": "npx sequelize-cli",
+    "build": "npx tsc",
+    "dev": "ts-node-dev --respawn --transpile-only ./server/server.ts"
   },
   "repository": {
     "type": "git",

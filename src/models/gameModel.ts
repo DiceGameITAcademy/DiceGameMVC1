@@ -16,7 +16,7 @@ export interface GameInstance extends Model<GameAttributes>, GameAttributes {}
 
 export const GameDb = sequelize.define<GameInstance>('Games', {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true
     },
