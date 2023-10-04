@@ -12,11 +12,12 @@
    
      it('should have a password property of type string', () => {
        const request: CreatePlayerRequest = {
-         name: 'John Doe',
-         password: 'password123',
+        name: 'Amilkar Palangana',
+         password: 'myFavouritePassword',
        };
    
        expect(typeof request.password).toBe('string');
+       expect(request.name).toBe('Amilkar Palangana')
      });
    });
    
