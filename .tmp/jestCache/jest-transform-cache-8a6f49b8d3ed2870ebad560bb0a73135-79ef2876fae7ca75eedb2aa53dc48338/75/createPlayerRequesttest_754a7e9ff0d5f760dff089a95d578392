@@ -1,0 +1,19 @@
+d348fbcd43c7d05f4481b6454271318a
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+describe('CreatePlayerRequest Interface', () => {
+    it('should have a name property of type string', () => {
+        const request = {
+            name: 'John Doe',
+            password: 'password123',
+        };
+        expect(typeof request.name).toBe('string');
+    });
+    it('should have a password property of type string', () => {
+        const request = {
+            name: 'John Doe',
+            password: 'password123',
+        };
+        expect(typeof request.password).toBe('string');
+    });
+});

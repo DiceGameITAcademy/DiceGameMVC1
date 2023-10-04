@@ -1,0 +1,52 @@
+02bebb075fe2e184d574f0321f4fed05
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.playGame = exports.checkWin = exports.calcResult = exports.roll = void 0;
+const uuid_1 = require("uuid");
+const roll = () => {
+    return Math.floor(Math.random() * 6) + 1;
+};
+exports.roll = roll;
+const calcResult = (roll1, roll2) => {
+    return roll1 + roll2;
+};
+exports.calcResult = calcResult;
+const checkWin = (result) => {
+    if (result === 7)
+        return true;
+    else
+        return false;
+};
+exports.checkWin = checkWin;
+function generateRandomNumber() {
+    const uuid = (0, uuid_1.v4)();
+    const hex = uuid.replace(/-/g, '').slice(0, 6); // Tomar solo los primeros 15 caracteres
+    const bigIntValue = BigInt('0x' + hex);
+    return Number(bigIntValue);
+}
+const playGame = (id) => {
+    if (typeof id !== 'number')
+        throw new Error('id must be a number');
+    const gameId = generateRandomNumber();
+    const diceValue1 = (0, exports.roll)();
+    const diceValue2 = (0, exports.roll)();
+    const result = (0, exports.calcResult)(diceValue1, diceValue2);
+    const win = (0, exports.checkWin)(result);
+    const playerId = id;
+    const gameResult = {
+        id: gameId,
+        diceValue1,
+        diceValue2,
+        result,
+        win,
+        playerId,
+        createdAt: new Date(),
+        updatedAt: new Date()
+    };
+    return gameResult;
+};
+exports.playGame = playGame;
+console.log((0, exports.playGame)(1));
+console.log((0, exports.playGame)(2));
+console.log((0, exports.playGame)(3));
+console.log((0, exports.playGame)(4));
