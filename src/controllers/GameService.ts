@@ -16,7 +16,7 @@ export const checkWin = (result: number) => {
 }   
 function generateRandomNumber() {
     const uuid = uuidv4();
-    const hex = uuid.replace(/-/g, '').slice(0, 15);  // Tomar solo los primeros 15 caracteres
+    const hex = uuid.replace(/-/g, '').slice(0, 6);  // Tomar solo los primeros 15 caracteres
     const bigIntValue = BigInt('0x' + hex);
     return Number(bigIntValue);
 }
