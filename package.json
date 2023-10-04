@@ -17,7 +17,6 @@
   },
   "author": "",
   "license": "ISC",
-
   "homepage": "",
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
@@ -45,6 +44,8 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.1",
     "sequelize-typescript": "^2.1.5",
+    "uuid": "^9.0.1",
+    "uuidv4": "^6.2.13",
     "zod": "^3.22.2"
   }
 }
