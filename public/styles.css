@@ -113,10 +113,20 @@ h1 {
   text-align: center;
 }
 
+#playGameForm{
+  border: #42357b 2px solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 15 px;
+  margin-top: 20px;
+}
+
 #response {
+  
   margin-top: 20px;
   width: 250px;
   padding: 10px;
+  text-align: center;
   /* background: #181c22; */
   border: 0;
   font-size: 20px;
