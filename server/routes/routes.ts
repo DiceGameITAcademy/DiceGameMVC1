@@ -38,6 +38,6 @@ router.get("/api/ranking", getRankingAverage)
 
 router.get("/api/ranking/winner", getRanking)
 
-router.get("api/ranking/loser", getRankingLosses)// por arreglar
+router.get("api/ranking/loser", getRankingLosses)
 
 

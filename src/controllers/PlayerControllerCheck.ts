@@ -92,7 +92,8 @@ export async function modifyPlayerName(
 }
 
 //Play game for a player
-
+//REVISAR
+//esta poniendo el id DEL JUGADOR EN EL ID DEL game I POR ESTO NO SE PUEDE VOLVER A HACER
 export async function playGameForPlayer(
   req: Request,
   res: Response,
@@ -271,6 +272,7 @@ export async function getPlayerWinningPercentage(
 }
 
 //get ranking of players based on wins
+//ORDENAR Y QUE SOLO SALGA EL NOMBRE Y EL numero de victorias
 
 export async function getRanking(
   req: Request,
@@ -304,6 +306,9 @@ export async function getRanking(
 }
 
 //get ranking of players based on losses
+//ORDENAR Y QUE SOLO SALGA EL NOMBRE Y EL NUMERO DE DERROTAS
+//que funcionee!!!
+
 
 export async function getRankingLosses(
   req: Request,
@@ -337,6 +342,7 @@ export async function getRankingLosses(
 }
 
 //get ranking of players based on average win percentage
+//falta ordenar!!!
 
 export async function getRankingAverage(
   req: Request,
