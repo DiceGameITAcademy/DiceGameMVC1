@@ -14,16 +14,17 @@ export const checkWin = (result: number) => {
      if (result === 7) return true  
         else return false
 }   
-export const GameId = (): number => {
-    const uuid = uuidv4().replace(/-/g, ''); 
-    return parseInt(uuid, 16); 
-
-  };
+function generateRandomNumber() {
+    const uuid = uuidv4();
+    const hex = uuid.replace(/-/g, '').slice(0, 15);  // Tomar solo los primeros 15 caracteres
+    const bigIntValue = BigInt('0x' + hex);
+    return Number(bigIntValue);
+}
 
 export const playGame = (id:number): Game => {
     if(typeof id !== 'number') throw new Error('id must be a number'
     )
-	const gameId :number = GameId();
+	const gameId :number = generateRandomNumber();
 	const diceValue1: number = roll();
 	const diceValue2: number = roll();
 	const result: number = calcResult(diceValue1,diceValue2);

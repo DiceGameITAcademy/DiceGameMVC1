@@ -357,18 +357,17 @@ export async function getRankingAverage(
       const winningGames = await GameDb.findAll({
         where: { playerId: player.id, win: true },
       });
-      const winningPercentage = (winningGames.length / games.length) * 100;
+      const winningPercentage = games.length > 0 ? (winningGames.length / games.length) * 100 : 0;
 
       return {
-        player,
+        name: player.name,
         winningPercentage,
       };
     });
-    const ranking= await Promise.all(rankingPromises)
 
-    ranking.sort((a, b) => b.winningPercentage - a.winningPercentage);
+    const ranking = (await Promise.all(rankingPromises))
+      .sort((a, b) => (b.winningPercentage || 0) - (a.winningPercentage || 0));
 
-    
     res.status(200).json({ ranking });
   } catch (error) {
     console.error("Error fetching player games:", error);
