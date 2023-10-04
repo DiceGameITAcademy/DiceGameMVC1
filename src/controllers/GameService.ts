@@ -1,4 +1,4 @@
-import { number } from 'zod';
+
 import { Game } from '../models/game'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -15,8 +15,8 @@ export const checkWin = (result: number) => {
         else return false
 }   
 export const GameId = (): number => {
-    const uuid = uuidv4().replace(/-/g, ''); // Eliminar guiones de la cadena UUID
-    return parseInt(uuid, 16); // Convertir la cadena hexadecimal a número
+    const uuid = uuidv4().replace(/-/g, ''); 
+    return parseInt(uuid, 16); 
   };
 
 export const playGame = (id:number): Game => {

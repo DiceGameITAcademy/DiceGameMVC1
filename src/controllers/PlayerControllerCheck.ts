@@ -20,11 +20,9 @@ export async function createPlayer(
 
     const existingPlayer = await Player.findOne({ where: { name } });
     if (existingPlayer) {
-      return res
-        .status(400)
-        .json({
-          error: "Player already exists, choose another name or go to log in",
-        });
+      return res.status(400).json({
+        error: "Player already exists, choose another name or go to log in",
+      });
     }
 
     if (password.length < 6) {
@@ -107,8 +105,6 @@ export async function playGameForPlayer(
     if (!player) {
       return res.status(404).json({ error: "Player not found" });
     }
-
-   
 
     const game = playGame(playerId);
     const newGame = await GameDb.create(game);
@@ -273,36 +269,6 @@ export async function getPlayerWinningPercentage(
     next(error);
   }
 }
-// Get average win percentage for all players
-
-export async function getAverageWinningPercentage(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const players = await Player.findAll();
-    let totalWinningPercentage = 0;
-    for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({
-        where: { playerId: players[i].id },
-      });
-      const winningGames = await GameDb.findAll({
-        where: { playerId: players[i].id, win: true },
-      });
-      const winningPercentage = (winningGames.length / games.length) * 100;
-      totalWinningPercentage += winningPercentage;
-    }
-    const averageWinningPercentage = totalWinningPercentage / players.length;
-
-    res.status(200).json({ averageWinningPercentage });
-  } catch (error) {
-    console.error("Error fetching player games:", error);
-    res.status(500).json({ error: "Internal server error" });
-
-    next(error);
-  }
-}
 
 //get ranking of players based on wins
 
@@ -313,18 +279,21 @@ export async function getRanking(
 ) {
   try {
     const players = await Player.findAll();
-    let ranking = [];
-    for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({
-        where: { playerId: players[i].id },
-      });
-      const winningGames = await GameDb.findAll({
-        where: { playerId: players[i].id, win: true },
-      });
-      const winningPercentage = (winningGames.length / games.length) * 100;
-      ranking.push({ name: players[i].name, winningPercentage });
-    }
-    ranking.sort((a, b) => b.winningPercentage - a.winningPercentage);
+
+    const ranking = await Promise.all(
+      players.map(async (player) => {
+        const winningGames = await GameDb.findAll({
+          where: { playerId: player.id, win: true },
+        });
+
+        const numberOfWins = winningGames.length;
+
+        return { name: player.name, numberOfWins };
+      })
+    );
+
+    ranking.sort((a, b) => b.numberOfWins - a.numberOfWins);
+
     res.status(200).json({ ranking });
   } catch (error) {
     console.error("Error fetching player games:", error);
@@ -343,18 +312,21 @@ export async function getRankingLosses(
 ) {
   try {
     const players = await Player.findAll();
-    let ranking = [];
-    for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({
-        where: { playerId: players[i].id },
-      });
-      const losingGames = await GameDb.findAll({
-        where: { playerId: players[i].id, win: false },
-      });
-      const losingPercentage = (losingGames.length / games.length) * 100;
-      ranking.push({ name: players[i].name, losingPercentage });
-    }
-    ranking.sort((a, b) => b.losingPercentage - a.losingPercentage);
+
+    const ranking = await Promise.all(
+      players.map(async (player) => {
+        const losingGames = await GameDb.findAll({
+          where: { playerId: player.id, win: false },
+        });
+
+        const numberOfLosses = losingGames.length;
+
+        return { name: player.name, numberOfLosses };
+      })
+    );
+
+    ranking.sort((a, b) => b.numberOfLosses - a.numberOfLosses);
+
     res.status(200).json({ ranking });
   } catch (error) {
     console.error("Error fetching player games:", error);
@@ -373,19 +345,29 @@ export async function getRankingAverage(
 ) {
   try {
     const players = await Player.findAll();
-    let ranking = [];
-    for (let i = 0; i < players.length; i++) {
-      const games = await GameDb.findAll({
-        where: { playerId: players[i].id },
-      });
+
+    const playerData = players.map(async (player) => {
+      const games = await GameDb.findAll({ where: { playerId: player.id } });
       const winningGames = await GameDb.findAll({
-        where: { playerId: players[i].id, win: true },
+        where: { playerId: player.id, win: true },
       });
       const winningPercentage = (winningGames.length / games.length) * 100;
-      ranking.push({ name: players[i].name, winningPercentage });
-    }
-    ranking.sort((a, b) => b.winningPercentage - a.winningPercentage);
-    res.status(200).json({ ranking });
+
+      return {
+        player,
+        winningPercentage,
+      };
+    });
+
+    const sortedPlayerData = (await Promise.all(playerData)).sort(
+      (a, b) => b.winningPercentage - a.winningPercentage
+    );
+
+    const averageWinningPercentage =
+      sortedPlayerData.reduce((acc, data) => acc + data.winningPercentage, 0) /
+      players.length;
+
+    res.status(200).json({ averageWinningPercentage, sortedPlayerData });
   } catch (error) {
     console.error("Error fetching player games:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -393,6 +375,8 @@ export async function getRankingAverage(
     next(error);
   }
 }
+
+//LOGIN AND LOGOUT
 
 export async function playerLogin(
   req: Request,
