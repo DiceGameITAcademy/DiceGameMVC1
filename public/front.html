@@ -1,5 +1,3 @@
-este funciona en parte el create game
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,6 +21,10 @@ este funciona en parte el create game
         <button type="button">Refresh</button>
       </a>
       <br /><br /><br />
+    </div>
+
+    <div class="center">
+      <img src="./pngimg.com - dice_PNG49.png" alt="dice game" id="dice">
     </div>
 
     <div class="center" id="createplayer">
@@ -56,7 +58,7 @@ este funciona en parte el create game
       </div>
     </div>
 
-    <div class="center">
+    <div class="center" id="getplayers">
       <button
         hx-get="/api/getPlayers"
         hx-target="#response"
@@ -67,26 +69,77 @@ este funciona en parte el create game
       </button>
     </div>
 
-    <!-- ESTE SIRVE Form for playing a game 
-<form id="playGameForm" hx-post="/api/game/0">  Use a default value for hx-post
-  <input type="text" id="id" name="id" required />
-  <button type="submit" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Start Game</button>
-</form> -->
+      <div class="center">
+        
+        
+        <form id="playGameForm">
 
-    <div class="center">
-      <!-- Form for playing a game -->
-      <form id="playGameForm">
-        <input type="number" id="id" name="id" required />
-        <button type="button" onclick="playGameForPlayer()">Start Game</button>
-      </form>
-    </div>
+          <h2>Enter player's id to play</h2>
+          <input type="number" id="id" name="id" required />
 
-    <div class="center">
-      <!-- Display response from the server -->
-      <div id="response">
-        <!-- Placeholder for response content -->
+          <p>Then roll the dice!</p>
+          <button type="button" onclick="playGameForPlayer()">Roll dice!</button>
+        </form>
+      </div>
+      <br>
+      <div class="center">
+
+        <br>
+        <div class="center" id="getranking">
+          <button
+            hx-get="/api/ranking"
+            hx-target="#response"
+            hx-swap="outerHTML"
+            hx-indicator="true"
+          >
+            Get Ranking
+          </button>
+        </div>
+
+        <div class="center">
+          <form id="getPlayerGames">
+            <h2>Enter player's ID to get a player's games</h2>
+            <input type="number" id="playerIdToDelete" name="id" required />
+            <br>
+            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Get players's rolls</button>
+          </form>
+        </div>
+        
+        <div class="center">
+          <form id="deletePlayerGames">
+            <h2>Enter player's ID to clean player's roll history</h2>
+            <input type="number" id="playerIdToDelete" name="id" required />
+            <br>
+            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Delete Rolls</button>
+          </form>
+        </div>
+        
+        <div class="center">
+          <form id="deletePlayer">
+            <h2>Enter player's ID to delete this player</h2>
+            <input type="number" id="playerIdToDelete" name="id" required />
+            <br>
+            <button type="button" hx-trigger="click" hx-get="/api/game/:id" hx-vals="#playerIdToDelete" hx-target="#response" hx-swap="outerHTML" hx-indicator="true">Delete Player</button>
+          </form>
+        </div>
+
+      </div>
+        
+        <br>
+        
       </div>
     </div>
+
+
+
+    
+
+    <!-- <div class="center">
+      <-- Display response from the server -->
+      <!-- <div id="response"> -->
+        <!-- Placeholder for response content >
+      </div>
+    </div> -->
 
     <script>
       async function playGameForPlayer() {

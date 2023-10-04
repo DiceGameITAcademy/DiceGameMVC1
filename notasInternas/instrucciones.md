@@ -70,3 +70,8 @@ structure for MVC
 │   └── insertData.ts
 ├── tsconfig.json
 └── tsconfig.prod.json
+
+
+pequeno proyecto de react
+
+usar next y serverside components
