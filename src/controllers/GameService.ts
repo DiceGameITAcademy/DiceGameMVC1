@@ -46,7 +46,3 @@ export const playGame = (id:number): Game => {
 	return gameResult;
 };
 
-console.log(playGame(1));
-console.log(playGame(2));
-console.log(playGame(3));
-console.log(playGame(4));

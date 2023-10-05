@@ -92,8 +92,6 @@ export async function modifyPlayerName(
 }
 
 //Play game for a player
-//REVISAR
-//esta poniendo el id DEL JUGADOR EN EL ID DEL game I POR ESTO NO SE PUEDE VOLVER A HACER
 export async function playGameForPlayer(
   req: Request,
   res: Response,
@@ -272,7 +270,6 @@ export async function getPlayerWinningPercentage(
 }
 
 //get ranking of players based on wins
-//ORDENAR Y QUE SOLO SALGA EL NOMBRE Y EL numero de victorias
 
 export async function getRanking(
   req: Request,
@@ -306,43 +303,39 @@ export async function getRanking(
 }
 
 //get ranking of players based on losses
-//ORDENAR Y QUE SOLO SALGA EL NOMBRE Y EL NUMERO DE DERROTAS
-//que funcionee!!!
-
 
 export async function getRankingLosses(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      const players = await Player.findAll();
-  
-      const ranking = await Promise.all(
-        players.map(async (player) => {
-          const losingGames = await GameDb.findAll({
-            where: { playerId: player.id, win: false },
-          });
-  
-          const numberOfLosses = losingGames.length;
-  
-          return { name: player.name, numberOfLosses };
-        })
-      );
-  
-      ranking.sort((a, b) => b.numberOfLosses - a.numberOfLosses);
-  
-      res.status(200).json({ ranking });
-    } catch (error) {
-      console.error("Error fetching player games:", error);
-      res.status(500).json({ error: "Internal server error" });
-  
-      next(error);
-    }
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const players = await Player.findAll();
+
+    const ranking = await Promise.all(
+      players.map(async (player) => {
+        const losingGames = await GameDb.findAll({
+          where: { playerId: player.id, win: false },
+        });
+
+        const numberOfLosses = losingGames.length;
+
+        return { name: player.name, numberOfLosses };
+      })
+    );
+
+    ranking.sort((a, b) => b.numberOfLosses - a.numberOfLosses);
+
+    res.status(200).json({ ranking });
+  } catch (error) {
+    console.error("Error fetching player games:", error);
+    res.status(500).json({ error: "Internal server error" });
+
+    next(error);
   }
+}
 
 //get ranking of players based on average win percentage
-//falta ordenar!!!
 
 export async function getRankingAverage(
   req: Request,
@@ -357,7 +350,8 @@ export async function getRankingAverage(
       const winningGames = await GameDb.findAll({
         where: { playerId: player.id, win: true },
       });
-      const winningPercentage = games.length > 0 ? (winningGames.length / games.length) * 100 : 0;
+      const winningPercentage =
+        games.length > 0 ? (winningGames.length / games.length) * 100 : 0;
 
       return {
         name: player.name,
@@ -365,8 +359,9 @@ export async function getRankingAverage(
       };
     });
 
-    const ranking = (await Promise.all(rankingPromises))
-      .sort((a, b) => (b.winningPercentage || 0) - (a.winningPercentage || 0));
+    const ranking = (await Promise.all(rankingPromises)).sort(
+      (a, b) => (b.winningPercentage || 0) - (a.winningPercentage || 0)
+    );
 
     res.status(200).json({ ranking });
   } catch (error) {
@@ -414,10 +409,6 @@ export async function playerLogout(
   next: NextFunction
 ) {
   try {
-    // You can perform any necessary logic for logging out a player here
-    // For example, clearing session data or tokens
-
-    // Respond with a success message
     res.status(200).json({ message: "Player logged out successfully" });
   } catch (error) {
     console.error("Error logging out player:", error);
