@@ -73,3 +73,8 @@ Click on Postman to check the routes
 ## Database
 
 The app connects to the mySql database. The configuration of this connection can be found in ... We have used Sequelize for the ORM
+
+
+## Folder structure
+
+![Local Image](public/folderstructure.png)
