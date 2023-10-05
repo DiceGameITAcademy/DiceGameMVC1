@@ -6,3 +6,4 @@ dist/
 .ts-jest/
 sequelizeconfig_*/
 *.perf-cache
+front-end
