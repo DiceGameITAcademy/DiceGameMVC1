@@ -55,10 +55,11 @@ export async function getAllPlayers(
     const players = await Player.findAll();
 
     res.status(200).json({ players });
+    console.log(players)
+
   } catch (error) {
     console.error("Error fetching players:", error);
     res.status(500).json({ error: "Internal server error" });
-
     next(error);
   }
 }
