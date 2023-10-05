@@ -67,7 +67,7 @@ Click on Postman to check the routes
 
 ## Dependencies and devDependencies
 
-- Check my [Title](package.json)
+- Check my [package.json](package.json)
 
 
 ## Database
