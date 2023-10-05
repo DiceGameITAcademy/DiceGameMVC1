@@ -9,6 +9,8 @@ describe('Game Logic', () => {
     });
   });
 
+  
+
   describe('calcResult', () => {
     it('should calculate the sum of two numbers', () => {
       const result = calcResult(2, 3);
@@ -85,10 +87,10 @@ describe('Game Logic', () => {
         const playerId = 1;
         const game = playGame(playerId);
     
-        // Manually set the dice values to create a losing result
+        
         const modifiedGame = { ...game, diceValue1: 5, diceValue2: 6 }
     
-        // Recalculate result and check if it's a losing result
+       
         const expectedSum = modifiedGame.diceValue1 +modifiedGame.diceValue2;
         expect(expectedSum).toBe(expectedSum);
         expect(false).toBe(false);
