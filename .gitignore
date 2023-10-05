@@ -2,3 +2,7 @@ node_modules/
 dist/
 .tmp/
 .tmp
+*.jestCache/
+.ts-jest/
+sequelizeconfig_*/
+*.perf-cache
