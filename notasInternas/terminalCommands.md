@@ -62,3 +62,8 @@ para insertar a la base de datos desde el terminal
 
 tree -I 'node_modules|notasInternas|config|seeders|dist'
 
+
+## jest clear cache
+
+npx jest --clearCache
+

@@ -75,3 +75,13 @@ structure for MVC
 pequeno proyecto de react
 
 usar next y serverside components
+
+lo que queda por hacer
+
+readme
+borrar carpeta .tmp
+ultimo merge
+los console.log del game service
+la carpeta notas internas
+
+foto tree
