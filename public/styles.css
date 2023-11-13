@@ -63,6 +63,7 @@ button {
   width: 10%;
   float: left;
   background: #42357b;
+  /* background: #42357b; */
   border: 0;
   box-sizing: border-box;
   color: #fff;
@@ -132,7 +133,7 @@ h1 {
   /* top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding-top: 20px; Adjust the value to create the desired separation */
+  padding-top: 20px; */
 }
 
 #purpleollin {
